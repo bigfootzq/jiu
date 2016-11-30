@@ -1,0 +1,37 @@
+<extend name="$_admin_public_layout"/>
+<block name="style">
+    <style type="text/css">
+       .left{
+            margin:20px 0;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <!-- 资讯 -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 news">
+                <h3>分销清算</h3>
+                <h4>注意，清算都是自动进行的，这里设置按钮只是为了模拟</h4>
+                <ul class="list-unstyled">
+                        <li class = "left">
+                        <a href="__ROOT__/Finance/Check/daycheck"  class="btn btn-info ">日清算</a>
+                        </li>
+                        <br/>
+                        <li class = "left">
+                        <a href="__ROOT__/Finance/Check/monthcheck" class="btn btn-info ">月清算</a>
+                        </li>
+                        <br/>
+                        <li class = "left">
+                        <a href="__ROOT__/user/birthday/index" class="btn btn-info ">生日祝福</a>
+                        </li>
+                        <label>点击生日祝福，列出当天日期以及所有用户的生日</label>
+                    
+                </ul>
+            </div>
+
+            
+        </div>
+    </div>
+</block>

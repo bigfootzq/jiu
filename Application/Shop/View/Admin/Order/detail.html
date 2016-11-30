@@ -1,0 +1,119 @@
+
+
+<block name="style">
+    <style type="text/css">
+        .article-title {
+            margin-bottom: 15px;
+        }
+        .article-info {
+            padding: 10px 0px;
+            margin-bottom: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .article-info ul {
+            margin-bottom: 0px;
+        }
+        .article-body {
+            margin-bottom: 25px;
+        }
+        .article-download .down-icon img {
+            width: 20px;
+        }
+        .article-download .down-name {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+        .article-download .badge {
+            margin-top: 2px;
+        }
+        .article-download .list-group-item {
+            border-style: dashed;
+        }
+        .order-price{
+            float:right;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container ">
+        <!-- <div class="row"> -->
+
+            <div class="col-xs-12 col-sm-6 news">
+                <div class="panel">
+                    <article class="article panel-body">
+                        <!-- 文章标题 -->
+                        <div class="article-title">
+                            
+                        </div>
+                        <!-- 文章信息 -->
+                        <div class="article-info text-muted">
+                            <ul class="list-unstyled ">
+                                <li>购物会员：{$info.buy_id|get_user_name}</li>
+                                <li>收货地址：{$info.address}</li>
+                                <li>姓名：{$info.buy_fullname}</li>
+                                <li>手机号码：{$info.mob}</li>
+                                <li>订单编号：{$info.no}</li>
+                                <li>购物类型：
+                                    <switch name = "info.order_type" >
+                                    <case value="1">主动消费购物</case>
+                                    <case value="2">奖励积分购物</case>
+                                    <case value="3">重消积分购物</case>
+                                    <default />
+                                    </switch>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 文章正文 -->
+                        <div class="article-body">
+                            <div class="panel panel-default table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            
+                                            <th>商品</th>
+                                            <th>商品价格</th>
+                                            <th>数量</th>
+                                            <th>状态</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+
+                                        <volist name = "goods_list" id = "vo">
+                                        <tr>
+                                                
+                                                <td>{$vo.name}</td>
+                                                <td>{$vo.price}</td>
+                                                <td>{$vo.number}</td>
+                                                <td>
+                                                    <switch name = "info.delivery_status" >
+                                                    <case value="0">未发货</case>
+                                                    <case value="1">已发货</case>
+                                                    <default />默认情况
+                                                    </switch>
+                                                </td>
+                                               
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="article-pager order-price">
+                            <hr>
+                            <ul class="list-unstyled">
+                                <li class="previous">商品总价：￥{$info.value}</li>
+                                <li class="previous">订单总价：￥{$info.value}</li>
+                                <li class="previous">实际支付：￥{$info.value}</li>
+                           
+                            </ul>
+                            <hr>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</block>

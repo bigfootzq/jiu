@@ -1,0 +1,104 @@
+<extend name="$_admin_public_layout"/>
+
+<block name="style">
+   
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__CUI__/js/cui.extend.min.js"></script>
+    <script type="text/javascript">
+        $.fn.datetimepicker.dates['zh'] = {
+				days:       ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],
+				daysShort:  ["日", "一", "二", "三", "四", "五", "六","日"],
+				daysMin:    ["日", "一", "二", "三", "四", "五", "六","日"],
+				months:     ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"],
+				monthsShort:  ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],
+				meridiem:    ["上午", "下午"],
+				//suffix:      ["st", "nd", "rd", "th"],
+				today:       "今天"
+		};
+        $(function() {
+            // 日期
+            $('#start_date').datetimepicker({
+                format      : 'yyyy-mm-dd',
+                autoclose   : true,
+                minView     : 'month',
+                todayBtn    : 'linked',
+                language    : 'zh',
+                initialDate : '{$start_date}',
+                fontAwesome : true,
+            });
+            $('#end_date').datetimepicker({
+                format      : 'yyyy-mm-dd',
+                autoclose   : true,
+                minView     : 'month',
+                todayBtn    : 'linked',
+                language    : 'zh',
+                initialDate : '{$end_date}',
+                fontAwesome : true,
+            });
+        });
+    </script>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="panel-body">
+            <div class="col-xs-12 col-sm-6 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-area-chart"></i> 导出清算报表
+                    </div> 
+                    
+                        
+                    <div class="panel-body">
+                        <h5 class="text-center">
+                            <form action="{:U('exportcsv')}" method="get"><!-- 
+                                <input id="start_date" name="start_date" value="{$start_date}"> 至
+                                <input id="end_date" name="end_date" value="{$end_date}"> -->
+                                <label>输入期号</label>
+                                <input id="id" name="id" value="">
+                                <label>输入用户名</label>
+                                <input id="username" name="username" value="">
+                                <input id="submit" type="submit" class="btn btn-xs btn-default search-btn" value="查询并导出指定报表">
+                            </form>
+                        </h5>
+                    </div>
+                    </div> 
+                    <div class="builder-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="builder-table">
+                                    <div class="panel panel-default table-responsive">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>清算期号</th>
+                                                    <!-- <th>清算时间</th> -->
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <volist name="data_list" id="vo" >
+                                                <tr>
+                                                    <td>第{$vo.check_no}期</td>
+                                                    <!-- <td>{$vo.check_time|date='Y-m-d',###}</td> -->
+                                                    <td><a href="admin.php?s=/Finance/check/detail/id/{$vo.check_no}" title="统计" class="label label-primary" name="detail">清算统计</a></td>
+                                                    <td><a href="admin.php?s=/Finance/check/exportcsv/id/{$vo.check_no}" title="导出报表" class="label label-primary" name="export">导出详细报表</a></td>
+                                                </tr>
+                                                </volist>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                         <notempty name="page">
+                            <ul class="pagination">{$page}</ul>
+                        </notempty>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

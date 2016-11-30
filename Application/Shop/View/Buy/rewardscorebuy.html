@@ -1,0 +1,152 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        .form-group{
+            margin: 5px 0;
+            padding: 5px 0;
+        }
+        .left{
+            float: left;
+            width:30%;
+        }
+        .right{
+            float: left;
+            width:70%;
+        }
+        .ad{
+            float:left;
+        }
+        .table td img.picture {
+            max-height: 40px;
+            max-width: 200px;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row ucenter-row">
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h4>注意：本次购物将使用奖励消费积分，奖励消费积分可以两倍购物</h4>
+                
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                     <form action="{:U('cart')}" method="post" class="form-horizontal form form-builder">
+                        <div class="form-group"></div>
+                         <div class="col-xs-12 col-md-6 hd">
+                                <div class="ad" >
+                                    <div class="form-group">
+                                        <label class="left control-label">购物人：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="buy_username" value="{$user_info.username}" readonly="readonly">
+                                        <input type="hidden" class="form-control " name="order_type" value = "2">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">    
+                                        <label class="left control-label">姓名：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="nickname" value="{$user_info.nickname}" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="left control-label">报单中心：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="shop_username" placeholder="请输入报单中心用户名">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="left control-label">送货方式：</label>
+                                        <div class = "right">
+                                            <select class="form-control " name ="delivery_type" >
+                                              <option value ="0" selected="selected">自取</option>
+                                              <option value ="1">快递</option>
+                                              <option value="2">物流配送</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="ad">
+                                    <div class="form-group">
+                                        <label class="left control-label">收货地址：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="address" value ="{$user_info.address}" placeholder="请输入收货地址">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="left control-label">收货人：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="buy_fullname" value ="{$user_info.nickname}" placeholder="请输入收货人姓名">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="left control-label">手机号码：</label>
+                                        <div class = "right">
+                                        <input type="text" class="form-control " name="mob" value ="{$user_info.mobile}"  placeholder="请输入收货人手机号码">
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group"></div>
+                        <div class="tab-content">
+                            <div class="panel panel-default table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th><input class="check-all" type="checkbox"></th> -->
+                                            <th>ID</th>
+                                            <th>商品编号</th>
+                                            <th>商品名称</th>
+                                            <th>商品图片</th>
+                                            <th>商品描述</th>
+                                            <th>商品价格</th>
+                                            <th>BV值</th>
+                                            <th>库存数量</th>
+                                            <th>购买数量</th>
+                                            <!-- <th>操作</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="goods_list" id="vo">
+                                            <tr>
+                                                <input class="ids" type="hidden" value="{$vo.id}" name="buy[{$i}][id]">
+                                                <input class="name" type="hidden" value="{$vo.name}" name="buy[{$i}][name]"> 
+                                                <input class="price" type="hidden" value="{$vo.price}" name="buy[{$i}][price]"> 
+                                                <td>{$i}</td>
+                                                <td>{$vo.no}</td>
+                                                <td>{$vo.name}</td>
+                                                <td><img class="picture" src=" {$vo.goods_pic|get_cover} "></td>
+                                                <td>{$vo.description}</td>
+                                                <td>{$vo.price}</td>
+                                                <td>{$vo.bv}</td>
+                                                <td>{$vo.number}</td>
+                                                <td><input class ="number" type= "number" name="buy[{$i}][number]"  /></td>
+                                                <!-- <td> <a class="btn btn-info ajax-post" target-form="number" href="{:U('coinBuy')}">购买</a></td> -->
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <notempty name="page">
+                                <ul class="pagination">{$page}</ul>
+                            </notempty>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                            
+                            <!-- <button class="btn btn-primary btn-block submit ajax-post visible-xs visible-sm" type="submit" target-form="form-builder">购买</button> -->
+                            <button class="btn btn-primary submit visible-md-inline visible-lg-inline" type="submit" target-form="form-builder">购买</button>
+                            <button class="btn btn-default return visible-md-inline visible-lg-inline" onclick="javascript:history.back(-1);return false;">返回</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

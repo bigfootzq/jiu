@@ -1,0 +1,165 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        .article-title {
+            margin-bottom: 15px;
+        }
+        .article-info {
+            padding: 10px 0px;
+            margin-bottom: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .article-info ul {
+            margin-bottom: 0px;
+        }
+        .article-body {
+            margin-bottom: 25px;
+        }
+        .article-download .down-icon img {
+            width: 20px;
+        }
+        .article-download .down-name {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+        .article-download .badge {
+            margin-top: 2px;
+        }
+        .article-download .list-group-item {
+            border-style: dashed;
+        }
+        .order-price{
+            float:right;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container ">
+        <!-- <div class="row"> -->
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-sm-6 news">
+                <div class="panel">
+                    <article class="article panel-body">
+                        <!-- 文章标题 -->
+                        <div class="article-title">
+                            <h4>购物清单</h4>
+                        </div>
+                        <!-- 文章信息 -->
+                        <div class="article-info text-muted">
+                            <ul class="list-unstyled ">
+                                <li>购物会员：{$info.buy_username}</li>
+                                <li>购物类型：
+                                    <switch name = "info.order_type" >
+                                    <case value="1">主动消费购物</case>
+                                    <case value="2">奖励积分购物</case>
+                                    <case value="3">重消积分购物</case>
+                                    <default />
+                                    </switch>
+                                </li>
+                                <li>商务中心：{$info.shop_username}</li>
+                                <li>姓名：{$info.buy_fullname}</li>
+                                <li>手机号码：{$info.mob}</li>
+                                <li>收货地址：{$info.address}</li>
+                            </ul>
+                        </div>
+                        <!-- 文章正文 -->
+                        <div class="article-body">
+                            <div class="panel panel-default table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            
+                                            <th>商品</th>
+                                            <th>商品价格</th>
+                                            <th>数量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+
+                                        <volist name = "goods_list" id = "vo">
+                                        <tr>
+                                                
+                                                <td>{$vo.name}</td>
+                                                <td>{$vo.price}</td>
+                                                <td>{$vo.number}</td>
+                                               
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="article-pager order-price">
+                            <hr>
+                            <ul class="list-unstyled">
+                                <li class="previous">商品总价：￥{$total_price}</li>
+                                <li class="previous">订单总价：￥{$total_price}</li>
+                                <if condition= " $info.order_type eq  2">
+                                <li class="previous">实际支付：￥{$total_price/2}</li>
+                                <else/>
+                                <li class="previous">实际支付：￥{$total_price}</li>
+                                </if>
+                                
+                           
+                            </ul>
+                            <hr>
+                        </div>
+                    </article>
+                </div>
+                <div class="form-group">                           
+                    <button class="btn btn-default return visible-md-inline visible-lg-inline" onclick="javascript:history.back(-1);return false;">返回修改</button>
+                    <button class="btn btn-primary submit visible-md-inline visible-lg-inline" type="submit" onclick="order_post()">提交订单</button>
+                </div>
+           </div>
+        <!-- </div> -->
+    </div>
+</block>
+<block name="script">
+<script src="__PUBLIC__/libs/layer/layer.js"></script>
+<script type="text/javascript" >
+function order_post(){
+   var info = {$jsoninfo};
+   console.log(info);
+   if ( {$info.order_type} == '1'){
+        var url = "{:U('Shop/Buy/coinBuy')}";
+   }else if ( {$info.order_type} == '2' ){
+            url = "{:U('Shop/Buy/rewardScoreBuy')}";
+   }else if ( {$info.order_type} == '3' ){
+            url = "{:U('Shop/Buy/repeatScoreBuy')}"
+   }
+  $.post(url, info ,
+            function(e){
+              if (1 == e.status) {
+					if (e.url)
+						var i = e.info + " 页面即将自动跳转~";
+					else
+						var i = e.info;
+					alertMessager(i, "success"),
+					setTimeout(function () {
+						return location.href = e.url
+					}, 2e3)
+				} else
+					alertMessager(e.info, "danger")
+                    
+          }
+        );//这里返回的类型有：json,html,xml,text
+  
+ 
+};
+function alertMessager(e, i, o) {
+		i = i ? i : "danger";
+		var n = '<div class="growl" style="top: 50px;left: 0;right:0;margin:0 auto;"><div class="alert alert-full alert-dismissable alert-' + i + '"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>' + e + "</div></div>";
+		$(".growl").remove(),
+		$("body").prepend(n),
+		setTimeout(function () {
+			$(".growl").remove()
+		}, o ? o : 2e3)
+	}
+</script>
+</block>

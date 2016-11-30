@@ -1,0 +1,32 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        /* 新闻资讯 */
+        .news ul li {
+            padding: 5px 0;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <!-- 资讯 -->
+        <div class="row">  
+
+            <div class="col-xs-12 col-sm-6 news">
+                <h3>通知公告 <small>／Notice</small></h3>
+                <ul class="list-unstyled">
+                    <volist name = "notice_list" id = "vo">
+                        <li>
+                            <a target="_blank" class="text-muted" href="">
+                                  <span>{$vo.title|cut_str=0,20}</span>
+                                <span class="pull-right visible-lg">{$vo.create_time|time_format}</span>
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>

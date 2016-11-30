@@ -1,0 +1,73 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        .article-title {
+            margin-bottom: 15px;
+        }
+        .article-info {
+            padding: 10px 0px;
+            margin-bottom: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .article-info ul {
+            margin-bottom: 0px;
+        }
+        .article-body {
+            margin-bottom: 25px;
+            font-size : 18px;
+            <!-- border: 1px solid #eee; -->
+        }
+        .article-download .down-icon img {
+            width: 20px;
+        }
+        .article-download .down-name {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+        .article-download .badge {
+            margin-top: 2px;
+        }
+        .article-download .list-group-item {
+            border-style: dashed;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div class="container ">
+        <!-- <div class="row"> -->
+            <div class="col-xs-12 news">
+                <div class="panel">
+                    <article class="article panel-body">
+                        <!-- 文章标题 -->
+                        <div class="article-title">
+                            <h3>{$info.title}</h3>
+                        </div>
+                        <!-- 文章信息 -->
+                        <div class="article-info text-muted">
+                            <ul class="list-unstyled list-inline">
+                                <li><i class="fa fa-calendar"></i> {$info.create_time|time_format}</li>
+                            </ul>
+                        </div>
+                        <!-- 文章正文 -->
+                        <div class="article-body">
+                            {$info.content|parse_content}
+                        </div>
+                        <!-- 文章导航 -->
+                        <div class="article-pager">
+                            <hr>
+                            <ul class="list-unstyled">
+                                <li class="previous"></li>
+                           
+                            </ul>
+                            <hr>
+                        </div>
+                    </article>
+                </div>
+                
+            </div>
+        <!-- </div> -->
+    </div>
+</block>

@@ -1,0 +1,42 @@
+<extend name="$_home_public_layout"/>
+
+<block name="main">
+    <div class="container">
+        <div class="row ucenter-row">
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <!-- <dt class="time">用户名：</dt><dd>{$user_info.username}</dd>
+                            <dt class="time">注册时间：</dt><dd class="time">{$user_info.create_time|friendly_date}</dd>
+                        </dl>
+                        <div class="alert alert-warning">签名：{$user_info.summary}</div> -->
+                    </div>
+                    <div class="tab-content">
+                    <div class="panel panel-default table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>市场情况列表</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <volist name="market" id="vo" >
+                                    <tr>
+                                        <td>第{$key+1}层</td>
+                                        
+                                        <td>{$vo}人</td>
+                                    </tr>
+                                </volist>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</block>

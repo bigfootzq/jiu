@@ -1,0 +1,157 @@
+<extend name="$_home_public_layout"/>
+<block name="style">
+    
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row ucenter-row">
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                    <div class="panel-body">
+                        <h5>注意，鼠标移过节点查看会员信息</h5>
+                        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                        <div id="tree" style="height:1000px"></div>
+                           
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+  <!-- ECharts单文件引入 -->
+   
+    <script type="text/javascript" src="__PUBLIC__/libs/echarts/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: '__PUBLIC__/libs/echarts/'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                <!-- 'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载 -->
+                'echarts/chart/tree', // 
+                
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('tree'));
+                mytree =  {$promotetree};
+               
+                //console.log(mytree);
+                // 添加点击事件  
+                var ecConfig = require('echarts/config');  
+                myChart.on(ecConfig.EVENT.CLICK, eConsole);
+                option = {
+                        title : {
+                            text: '会员推荐总图',
+                            subtext: '后台数据'
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: false},
+                                dataView : {show: false, readOnly: false},
+                                restore : {show: false},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: function (params,ticket,callback) {
+                                //console.log(params);
+                                if( typeof(params[5].children) != "undefined"){
+                                    if( typeof(params[5].children[0]) != "undefined"){
+                                        var asales = params[5].children[0].total_market_sales;
+                                    }else{
+                                        var asales = 0;
+                                    }
+                                    if( typeof(params[5].children[1]) != "undefined"){
+                                        var bsales = params[5].children[1].total_market_sales;
+                                    }else{
+                                        var bsales = 0;
+                                    }
+                                }else{
+                                        var asales = 0;
+                                        var bsales = 0;
+                                }
+                                
+                                
+                                var res = 'id：'+params[5].id +'<br/>用户名：'+params[5].username +'<br/>姓名：'+ params[5].nickname +'<br/>级别：'+params[5].user_level+'<br/>位置:'+params[5].position+'区' +'<br/>累计销售额:'+params[5].total_market_sales+'<br/>今日销售额:'+params[5].day_sales+'<br/>A区:'+params[5].left+' |人数| B区:'+params[5].right+'<br/>A区:'+asales+' |总销售额| B区:'+bsales+'<br/>A区:'+(asales - bsales)+' |碰对剩余销售额| B区:0';
+                                return res;
+                            }
+                        },
+                        calculable : false,
+                        
+                        
+                        series : [
+                            {
+                                name:'位置系谱图',
+                                type:'tree',
+                                orient: 'vertical',  // 'vertical' | 'horizontal' | 'radial'
+                                rootLocation: {x: 'center',y: 100}, // 根节点位置  {x: 100, y: 'center'}
+                                nodePadding: 30,
+                                roam:true,
+                                symbol: 'circle',//'circle' | 'rectangle' | 'triangle' | 'diamond' |'emptyCircle' | 'emptyRectangle' | 'emptyTriangle' | 'emptyDiamond'
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            show: true,
+                                            formatter: "{b}"
+                                        },
+                                        lineStyle: {
+                                            color: '#48b',
+                                            shadowColor: '#000',
+                                            shadowBlur: 3,
+                                            shadowOffsetX: 3,
+                                            shadowOffsetY: 5,
+                                            type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+
+                                        }
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true
+                                        }
+                                    }
+                                },
+                                
+                                data: mytree
+                            }
+                        ]
+                    };
+                    
+
+        
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+                function eConsole(param) {    
+                    if (typeof param.seriesIndex == 'undefined') {    
+                        return;    
+                    }    
+                    if (param.type == 'click') {    
+                        console.log(param.data);
+                        if(param.data.category == 0){
+                            window.location.href="{:U('User/register4')}"+"?username="+param.data.username+"&position=A";
+                        }
+                        if( (param.data.category == 1) && (param.data.rid == 0) ){
+                            window.location.href="{:U('User/register4')}"+"?username="+param.data.username+"&position=B";
+                        }
+                    }    
+                }  
+            }
+        );
+    </script>  
+</block>

@@ -1,0 +1,197 @@
+<extend name="$_home_public_layout"/>
+
+<block name="main">
+    <div class="container">
+        <div class="row ucenter-row">
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt class="time">用户名：</dt><dd>{$user_info.username}</dd>
+                            <dt class="time">注册时间：</dt><dd class="time">{$user_info.create_time|friendly_date}</dd>
+                        </dl>
+                        <div class="alert alert-warning">签名：{$user_info.summary}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                    <div class="panel-body">
+                            
+                        <div class="tab-content ct-tab-content">
+              
+                    <div role="tabpanel" class="fade in active" id="home">
+                        <div class="dashboard clearfix">
+                            <div class="col-xs-12 col-sm-6 col-lg-4 ct-update">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="update pull-right"></div>
+                                        <i class="fa fa-cog"></i> 基本信息
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-condensed text-overflow">
+                                            <tbody>
+                                                <tr>
+                                                    <td>用户名</td>
+                                                    <td>
+                                                        {$user_info.username}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>姓名</td>
+                                                    <td>
+                                                        {$user_info.nickname}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>会员级别</td>
+                                                    <td>
+                                                        
+                                                        <switch name="user_caiwu_info.user_level"> 
+                                                        <case value="5">主任</case>     
+                                                        <case value="6">经理</case>   
+                                                        <case value="7">总监</case>   
+                                                        <default />会员
+                                                        </switch>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>店铺级别</td>
+                                                    <td>
+                                                        
+                                                        <switch name="user_caiwu_info.store_level"> 
+                                                        <case value="1">主任店</case>    
+                                                        <case value="2">经理店</case>   
+                                                        <case value="3">中心店</case>   
+                                                        <default />无
+                                                        </switch>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-xs-12 col-sm-6 col-lg-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-actions"></div>
+                                        <i class="fa fa-th-list"></i> 电子钱包
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-condensed">
+                                            <tbody>
+                                                
+                                                <tr>
+                                                    <td>电子币</td>
+                                                    <td>
+                                                        {$user_caiwu_info.coin}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>奖金币</td>
+                                                    <td>
+                                                        {$user_caiwu_info.reward_coin}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>消费奖励积分</td>
+                                                    <td>
+                                                        {$user_caiwu_info.reward_score}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>重复消费积分</td>
+                                                    <td>
+                                                        {$user_caiwu_info.repeat_score}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-xs-12 col-sm-6 col-lg-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="panel-actions"></div>
+                                        <i class="fa fa-th-list"></i> 销售额
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-condensed">
+                                            <tbody>
+                                                
+                                                <tr>
+                                                    <td>累计总销售额</td>
+                                                    <td>
+                                                        {$user_caiwu_info.total_sales}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>累计积分</td>
+                                                    <td>
+                                                        {$user_caiwu_info.total_score}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>本月累计重消积分</td>
+                                                    <td>
+                                                        {$user_caiwu_info.month_repeat_score}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>本月销售额</td>
+                                                    <td>
+                                                        {$user_caiwu_info.month_sales}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>本日销售额</td>
+                                                    <td>
+                                                        {$user_caiwu_info.day_sales}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        
+        <!-- 公告区块 -->
+            <div class="col-xs-12 col-sm-6 news">
+                <div class="panel-default">
+                    <div class="panel-heading">
+                    <i class="fa fa-th-list"></i>通知公告 <small>／Notice</small>
+                    </div>
+                </div>
+                <br/> 
+                    <ul class="list-unstyled">
+                        <volist name = "notice_list" id = "vo">
+                            <li>
+                                <a target="_blank" class="text-muted" href="{:U('Sms/Notice/detail',array('id' => $vo['id']))}">
+                                       <span>{$i}.</span>
+                                      <span>{$vo.title|cut_str=0,20}</span>
+                                    <span class="pull-right visible-lg">{$vo.create_time|time_format}</span>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <ul class="pagination"><notempty name="page">{$page}</notempty></ul>
+            </div>
+        </div>
+    </div>
+</block>

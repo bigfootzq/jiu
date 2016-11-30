@@ -1,0 +1,218 @@
+<extend name="$_home_public_layout"/>
+
+<block name="style">
+    <style type="text/css">
+        .form-group{
+            margin: 5px 0;
+            padding: 5px 0;
+        }
+        .left{
+            float: left;
+            width:30%;
+        }
+        .right{
+            float: left;
+            width:70%;
+        }
+        .ad{
+            float:left;
+        }
+        .adinfo{
+            float:left;
+        }
+        .table td img.picture {
+            max-height: 40px;
+            max-width: 200px;
+        }
+        </style>
+</block>
+
+<block name="main">
+    <div class="container">
+        <div class="row ucenter-row">
+            <div class="col-xs-12 col-md-3">
+                <include file="$_user_center_side" /><!-- 包含用户中心侧边导航 -->
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h4>注意：本次购物将使用电子币</h4>
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="panel">
+                     <form action="{:U('Shop/buy/cart')}" method="post" id="buy" class="form-horizontal form form-builder">
+                        <div class="form-group"></div>
+                        <div class="col-xs-12 col-md-6 hd">
+                        <div class="ad" >
+                            <div class="form-group">
+                                <label class="left control-label">购物人：</label>
+                                <div class = "right">
+                                <input type="text" class="form-control " name="buy_username" placeholder="请输入购物人用户名">
+                                <input type="hidden" class="form-control " name="order_type" value = "1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="left control-label">报单中心：</label>
+                                <div class = "right">
+                                <input type="text" class="form-control " name="shop_username" placeholder="请输入报单中心用户名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="left control-label">送货方式：</label>
+                                <div class = "right">
+                                    <select class="form-control " name ="delivery_type" >
+                                      <option value ="0" selected="selected">自取</option>
+                                      <option value ="1">快递</option>
+                                      <option value="2">物流配送</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="adinfo">
+                            <div class="form-group">
+                                <label class="left control-label">收货地址：</label>
+                                <div class = "right">
+                                <input type="text" class="form-control " name="address" value ="{$user_info.address}" placeholder="请输入收货地址">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="left control-label">收货人：</label>
+                                <div class = "right">
+                                <input type="text" class="form-control " name="buy_fullname" value ="{$user_info.nickname}" placeholder="请输入收货人姓名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="left control-label">手机号码：</label>
+                                <div class = "right">
+                                <input type="text" class="form-control " name="mob" value ="{$user_info.mobile}"  placeholder="请输入收货人手机号码">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        </div>
+                        <div class="form-group"></div>
+                        <div class="tab-content">
+                            <div class="panel panel-default table-responsive ">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th><input class="check-all" type="checkbox"></th> -->
+                                            <th>ID</th>
+                                            <th>商品编号</th>
+                                            <th>商品名称</th>
+                                            <th>商品图片</th>
+                                            <th>商品描述</th>
+                                            <th>商品价格</th>
+                                            <th>BV值</th>
+                                            <th>库存数量</th>
+                                            <th>购买数量</th>
+                                            <!-- <th>操作</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="goods_list" id="vo">
+                                            <tr>
+                                                <input class="ids" type="hidden" value="{$vo.id}" name="buy[{$i}][id]">
+                                                <input class="name" type="hidden" value="{$vo.name}" name="buy[{$i}][name]"> 
+                                                <input class="price" type="hidden" value="{$vo.price}" name="buy[{$i}][price]"> 
+                                                <td>{$i}</td>
+                                                <td>{$vo.no}</td>
+                                                <td>{$vo.name}</td>
+                                                <td><a href = "#" onclick="displayImage(this)"><img class="picture" src=" {$vo.goods_pic|get_cover} "></a></td>
+                                                <td>{$vo.description}</td>
+                                                <td>{$vo.price}</td>
+                                                <td>{$vo.bv}</td>
+                                                <td>{$vo.number}</td>
+                                                <td><input class ="number" type= "number" name="buy[{$i}][number]"  /></td>
+                                                <!-- <td> <a class="btn btn-info ajax-post" target-form="number" href="{:U('coinBuy')}">购买</a></td> -->
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- {$page|var_dump} -->
+                            <notempty name="page">
+                                <ul class="pagination">{$page}</ul>
+                            </notempty>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                            
+                            <!-- <span><a data-toggle="modal" href='#'>购买</a></span> -->
+                            <!-- <button class="btn btn-primary btn-block submit ajax-post visible-xs visible-sm" type="submit" target-form="form-builder">购买</button> -->
+                            <!-- <button class="btn btn-primary submit visible-md-inline visible-lg-inline" data-toggle="modal" data-target="#user_protocol-modal">购买</button> -->
+                            <button class="btn btn-primary submit  visible-md-inline visible-lg-inline" type="submit" target-form="form-builder">购买</button>
+                            <button class="btn btn-default return visible-md-inline visible-lg-inline" onclick="javascript:history.back(-1);return false;">返回</button>
+                    </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 购物清单弹窗 -->
+    <div class="modal fade" id="user_protocol-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">购物清单</h4>
+                </div>
+                <div class="modal-body modal-body-scroller">
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-default" >同意</button> -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回修改</button>
+                    <button class="btn btn-primary submit ajax-post visible-md-inline visible-lg-inline" type="submit" data-dismiss="modal" target-form="form-builder">确定购买</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+<script type="text/javascript" >
+    function displayImage(obj){	
+            photoname = obj.innerHTML;
+            //console.log(obj);
+            //alert(photoname.src);
+        layer.open( {
+        type: 1, 
+            offset: '100px',
+            title: "商品图片",
+            content: '<img src = "" />' 
+            } );
+    }
+</script>
+<script>
+    $(function() {
+        $('#user_protocol-modal').on('show.bs.modal',
+        function() {
+            var buyinfo = $('#buy').serialize();
+            //var buyinfo = getFormJson('#buy');
+            console.log(buyinfo);
+            var buy_username = buyinfo[0].value;
+            var shop_username = buyinfo[1].value;
+            var delivery_type = buyinfo[2].value;
+            var address = buyinfo[3].value;
+            var buy_fullname = buyinfo[4].value;
+            var mob = buyinfo[5].value;
+            console.log(mob);
+        })
+    });
+    function getFormJson(form) {
+        var o = {};
+        var a = $(form).serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+        return o;
+    }
+</script>
+</block>
